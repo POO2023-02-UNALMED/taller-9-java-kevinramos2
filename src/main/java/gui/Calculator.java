@@ -37,7 +37,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		gd.setVgap(5);
 		gd.setHgap(4);
 		
-		gd.setAlignment(Pos.BOTTOM_RIGHT);
+		gd.setAlignment(Pos.CENTER);
 		
 		Button b7 = new Button("7");
 		gd.add(b7, 0, 0);
@@ -50,12 +50,12 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b8.setOnAction(this);
 		
 		Button b9 = new Button("9");
-		gd.add(b9, 2, 3);
+		gd.add(b9, 2, 0);
 		b9.setPrefWidth(50);
 		b9.setOnAction(this);
 		
 		Button div = new Button("/");
-		gd.add(div, 2, 4);
+		gd.add(div, 3, 0);
 		div.setPrefWidth(50);
 		div.setOnAction(this);
 		
@@ -70,17 +70,17 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b5.setOnAction(this);
 		
 		Button b6 = new Button("6");
-		gd.add(b6, 1, 2);
+		gd.add(b6, 2, 1);
 		b6.setPrefWidth(50);
 		b6.setOnAction(this);
 		
 		Button mul = new Button("*");
-		gd.add(mul, 4, 1);
+		gd.add(mul, 3, 1);
 		mul.setPrefWidth(50);
 		mul.setOnAction(this);
 		
 		Button b1 = new Button("1");
-		gd.add(b1, 0, 3);
+		gd.add(b1, 0, 2);
 		b1.setPrefWidth(50);
 		b1.setOnAction(this);
 		
@@ -95,7 +95,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b3.setOnAction(this);
 		
 		Button minus = new Button("-");
-		gd.add(minus, 3, 4);
+		gd.add(minus, 3, 2);
 		minus.setPrefWidth(50);
 		minus.setOnAction(this);
 		
@@ -105,7 +105,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b0.setOnAction(this);
 		
 		Button plus = new Button("+");
-		gd.add(plus, 4, 3);
+		gd.add(plus, 2, 3);
 		plus.setPrefWidth(50);
 		plus.setOnAction(this);
 		
@@ -115,7 +115,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		equals.setOnAction(this);
 		
 		Button reset = new Button("C");
-		gd.add(reset, 0, 4, 0, 1);
+		gd.add(reset, 0, 4, 4, 1);
 		reset.setPrefWidth(215);
 		reset.setOnAction(this);
 		
@@ -128,9 +128,59 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		Button b = (Button) event.getSource();
 		String value = b.getText();
 		
-		//***
-		
+		if ("/*-+".contains(value)) {
+			operator = value;
+			number1= displayText.getText();
+			displayText.setText("");
+		}
+		if ("/*-+".contains(displayText.getText())) {
+			displayText.setText("");
+		}
+		if (value == "=") {
+			number2 = displayText.getText();
+			displayText.setText("");
+			calculos();
+		}
+		else if (value == "C") {
+			operator = null;
+			number1="";
+			number2="";
+			displayText.setText("");
+		}
+		else {
+			displayText.setText(displayText.getText()+value);
+		}
 	}
 	
-
+	// operaciones de calculadora
+	public void calculos() {
+		int numero1 = Integer.parseInt(number1);
+		int numero2 = Integer.parseInt(number2);
+		int resultFinal;
+		
+		//SUMAR
+		
+		if(operator == "+") {
+			resultFinal = numero1+numero2;
+			displayText.setText(Integer.toString(resultFinal));
+		}
+		
+		//RESTAR
+		else if(operator == "-") {
+			resultFinal = numero1-numero2;
+			displayText.setText(Integer.toString(resultFinal));
+		}
+		
+		//MULTIPLICAR
+		else if(operator == "*") {
+			resultFinal = numero1*numero2;
+			displayText.setText(Integer.toString(resultFinal));
+		}
+		
+		//DIVIDIR
+		else if(operator == "/") {
+			resultFinal = numero1/numero2;
+			displayText.setText(Integer.toString(resultFinal));
+		}
+	}
 }
